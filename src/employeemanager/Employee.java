@@ -5,7 +5,7 @@ package employeemanager;
  * @author Raafee-M
  */
 
-public class Employee extends User implements TaskActions {
+public class Employee extends User{
     
     private String name;
     private int id;
@@ -73,16 +73,6 @@ public class Employee extends User implements TaskActions {
 
     public void setSalary(int salary) {
         this.salary = salary;
-    }
-
-    @Override
-    public void assignTask(String username, String taskDetails) throws UserNotFoundException {
-        //empty
-    }
-
-    @Override
-    public void viewTasks(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     
