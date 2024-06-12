@@ -1,13 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package employeemanager;
 
 /**
  *
- * @author Ralty
+ * @author Rafee-M
  */
+
 public interface InfoSaving {
+    
+    public abstract void saveToFile();
+    public abstract void checkDir(String path);
     
 }
