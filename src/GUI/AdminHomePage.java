@@ -1,21 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package GUI;
 
 import GUI.Login;
 
 /**
  *
- * @author Ralty
+ * @author Rafee-M
  */
+
 public class AdminHomePage extends javax.swing.JFrame {
 
     private boolean toggle = true;
+    private String username;
     
     public AdminHomePage() {
         initComponents();
+    }
+    
+    public AdminHomePage(String username){
+        this.username = username;
+        initComponents();
+    }
+    
+    public AdminHomePage(String username, int x, int y){
+        this.username = username;
+        initComponents();
+        this.setLocation(x, y);
+        this.setResizable(false); // Make the frame not resizable
     }
 
     /**
@@ -33,13 +43,13 @@ public class AdminHomePage extends javax.swing.JFrame {
         AccountTypeLabel1 = new javax.swing.JLabel();
         positionLabel1 = new javax.swing.JLabel();
         salaryLabel1 = new javax.swing.JLabel();
-        accountValue1 = new javax.swing.JLabel();
-        positionValue1 = new javax.swing.JLabel();
-        salaryValue1 = new javax.swing.JLabel();
+        accountValue = new javax.swing.JLabel();
+        positionValue = new javax.swing.JLabel();
+        salaryValue = new javax.swing.JLabel();
         usernameLabel1 = new javax.swing.JLabel();
         nameLabel1 = new javax.swing.JLabel();
-        nameValue1 = new javax.swing.JLabel();
-        usernameValue1 = new javax.swing.JLabel();
+        nameValue = new javax.swing.JLabel();
+        usernameValue = new javax.swing.JLabel();
         AdminSignOut = new javax.swing.JButton();
         MenuButton = new javax.swing.JButton();
         AdminMenuPanel = new javax.swing.JPanel();
@@ -73,17 +83,17 @@ public class AdminHomePage extends javax.swing.JFrame {
         salaryLabel1.setForeground(new java.awt.Color(39, 39, 39));
         salaryLabel1.setText("Salary:");
 
-        accountValue1.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
-        accountValue1.setForeground(new java.awt.Color(23, 23, 23));
-        accountValue1.setText("Admin");
+        accountValue.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
+        accountValue.setForeground(new java.awt.Color(23, 23, 23));
+        accountValue.setText("Admin");
 
-        positionValue1.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
-        positionValue1.setForeground(new java.awt.Color(23, 23, 23));
-        positionValue1.setText("null");
+        positionValue.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
+        positionValue.setForeground(new java.awt.Color(23, 23, 23));
+        positionValue.setText("TBA");
 
-        salaryValue1.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
-        salaryValue1.setForeground(new java.awt.Color(23, 23, 23));
-        salaryValue1.setText("null");
+        salaryValue.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
+        salaryValue.setForeground(new java.awt.Color(23, 23, 23));
+        salaryValue.setText("TBA");
 
         usernameLabel1.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
         usernameLabel1.setForeground(new java.awt.Color(39, 39, 39));
@@ -93,13 +103,19 @@ public class AdminHomePage extends javax.swing.JFrame {
         nameLabel1.setForeground(new java.awt.Color(39, 39, 39));
         nameLabel1.setText("Name:");
 
-        nameValue1.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
-        nameValue1.setForeground(new java.awt.Color(23, 23, 23));
-        nameValue1.setText("null");
+        nameValue.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
+        nameValue.setForeground(new java.awt.Color(23, 23, 23));
+        nameValue.setText("null");
+        if(!(username==(null))){
+            nameValue.setText(username);
+        }
 
-        usernameValue1.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
-        usernameValue1.setForeground(new java.awt.Color(23, 23, 23));
-        usernameValue1.setText("null");
+        usernameValue.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
+        usernameValue.setForeground(new java.awt.Color(23, 23, 23));
+        usernameValue.setText("null");
+        if(!(username==(null))){
+            usernameValue.setText(username);
+        }
 
         javax.swing.GroupLayout AdminHomeInfoPanelLayout = new javax.swing.GroupLayout(AdminHomeInfoPanel);
         AdminHomeInfoPanel.setLayout(AdminHomeInfoPanelLayout);
@@ -117,9 +133,9 @@ public class AdminHomePage extends javax.swing.JFrame {
                             .addComponent(salaryLabel1))
                         .addGap(18, 18, 18)
                         .addGroup(AdminHomeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(salaryValue1)
-                            .addComponent(positionValue1)
-                            .addComponent(accountValue1)))
+                            .addComponent(salaryValue)
+                            .addComponent(positionValue)
+                            .addComponent(accountValue)))
                     .addGroup(AdminHomeInfoPanelLayout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addGroup(AdminHomeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,8 +143,8 @@ public class AdminHomePage extends javax.swing.JFrame {
                             .addComponent(usernameLabel1))
                         .addGap(28, 28, 28)
                         .addGroup(AdminHomeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(usernameValue1)
-                            .addComponent(nameValue1))))
+                            .addComponent(usernameValue)
+                            .addComponent(nameValue))))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
         AdminHomeInfoPanelLayout.setVerticalGroup(
@@ -142,23 +158,23 @@ public class AdminHomePage extends javax.swing.JFrame {
                         .addGap(51, 51, 51)
                         .addGroup(AdminHomeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AccountTypeLabel1)
-                            .addComponent(accountValue1))
+                            .addComponent(accountValue))
                         .addGap(35, 35, 35)
                         .addGroup(AdminHomeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(positionLabel1)
-                            .addComponent(positionValue1))
+                            .addComponent(positionValue))
                         .addGap(37, 37, 37)
                         .addGroup(AdminHomeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(salaryLabel1)
-                            .addComponent(salaryValue1))))
+                            .addComponent(salaryValue))))
                 .addGap(26, 26, 26)
                 .addGroup(AdminHomeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLabel1)
-                    .addComponent(nameValue1))
+                    .addComponent(nameValue))
                 .addGap(31, 31, 31)
                 .addGroup(AdminHomeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usernameLabel1)
-                    .addComponent(usernameValue1))
+                    .addComponent(usernameValue))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
 
@@ -219,6 +235,11 @@ public class AdminHomePage extends javax.swing.JFrame {
         AdminRemoveEmployeeButton.setText("Remove Employee");
         AdminRemoveEmployeeButton.setBorderPainted(false);
         AdminRemoveEmployeeButton.setFocusPainted(false);
+        AdminRemoveEmployeeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AdminRemoveEmployeeButtonActionPerformed(evt);
+            }
+        });
 
         AdminAssignTaskButton.setBackground(new java.awt.Color(51, 51, 51));
         AdminAssignTaskButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -238,6 +259,11 @@ public class AdminHomePage extends javax.swing.JFrame {
         AdminAddEmployeeButton.setText("Add Employee");
         AdminAddEmployeeButton.setBorderPainted(false);
         AdminAddEmployeeButton.setFocusPainted(false);
+        AdminAddEmployeeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AdminAddEmployeeButtonActionPerformed(evt);
+            }
+        });
 
         AdminChangePassButton.setBackground(new java.awt.Color(51, 51, 51));
         AdminChangePassButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -362,7 +388,9 @@ public class AdminHomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_MenuButtonActionPerformed
 
     private void AdminViewTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminViewTaskButtonActionPerformed
-        // TODO add your handling code here:
+        AdminTaskView viewTask = new AdminTaskView(this);
+        this.setVisible(false);
+        viewTask.setVisible(true);
     }//GEN-LAST:event_AdminViewTaskButtonActionPerformed
 
     private void AdminSignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminSignOutActionPerformed
@@ -372,16 +400,33 @@ public class AdminHomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_AdminSignOutActionPerformed
 
     private void AdminViewEmployeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminViewEmployeeButtonActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        AdminViewEmployeeInfo view = new AdminViewEmployeeInfo(this, this.getX(), this.getY());
+        view.setVisible(true);
     }//GEN-LAST:event_AdminViewEmployeeButtonActionPerformed
 
     private void AdminAssignTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminAssignTaskButtonActionPerformed
-        // TODO add your handling code here:
+        AdminTaskAssignment assign = new AdminTaskAssignment(this);
+        this.setVisible(false);
+        assign.setVisible(true);
+        
     }//GEN-LAST:event_AdminAssignTaskButtonActionPerformed
 
     private void AdminChangePassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminChangePassButtonActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_AdminChangePassButtonActionPerformed
+
+    private void AdminAddEmployeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminAddEmployeeButtonActionPerformed
+        this.setVisible(false);
+        AdminAddEmployee add = new AdminAddEmployee(this, this.getX(), this.getY());
+        add.setVisible(true);
+    }//GEN-LAST:event_AdminAddEmployeeButtonActionPerformed
+
+    private void AdminRemoveEmployeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminRemoveEmployeeButtonActionPerformed
+        this.setVisible(false);
+        AdminEmployeeRemoval remove = new AdminEmployeeRemoval(this, this.getX(), this.getY());
+        remove.setVisible(true);
+    }//GEN-LAST:event_AdminRemoveEmployeeButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -432,15 +477,15 @@ public class AdminHomePage extends javax.swing.JFrame {
     private javax.swing.JLabel HomeLogo;
     private javax.swing.JButton MenuButton;
     private javax.swing.JLabel ProfileLogo1;
-    private javax.swing.JLabel accountValue1;
+    private javax.swing.JLabel accountValue;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel nameLabel1;
-    private javax.swing.JLabel nameValue1;
+    private javax.swing.JLabel nameValue;
     private javax.swing.JLabel positionLabel1;
-    private javax.swing.JLabel positionValue1;
+    private javax.swing.JLabel positionValue;
     private javax.swing.JLabel salaryLabel1;
-    private javax.swing.JLabel salaryValue1;
+    private javax.swing.JLabel salaryValue;
     private javax.swing.JLabel usernameLabel1;
-    private javax.swing.JLabel usernameValue1;
+    private javax.swing.JLabel usernameValue;
     // End of variables declaration//GEN-END:variables
 }

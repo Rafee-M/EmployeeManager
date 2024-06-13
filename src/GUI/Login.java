@@ -5,6 +5,16 @@
 package GUI;
 
 import employeemanager.Admin;
+import employeemanager.EmployeeSaving;
+import employeemanager.UserNotFoundException;
+import employeemanager.UsernameLedger;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -12,20 +22,21 @@ import employeemanager.Admin;
  */
 public class Login extends javax.swing.JFrame {
 
-    
     private String username;
     private String password;
     private SplashScreen splashScreen;
     Admin a1 = new Admin();
-    
+
     public Login() {
         initComponents();
     }
-    
+
     //constructor overloading for recieveing SplashScreen.java instance
     public Login(SplashScreen splashScreen) {
         initComponents();
-        this.splashScreen = splashScreen; // Store the reference to SplashScreen
+        this.splashScreen = splashScreen; //store the reference to SplashScreen
+        setLocationRelativeTo(null); // Set start position to center of the screen
+        this.setResizable(false); // Make the frame not resizable
     }
 
     /**
@@ -165,28 +176,78 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoginPassFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginPassFieldActionPerformed
-        
-        
+
+
     }//GEN-LAST:event_LoginPassFieldActionPerformed
 
     private void LoginUserFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginUserFieldActionPerformed
-        
+
     }//GEN-LAST:event_LoginUserFieldActionPerformed
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
         username = LoginUserField.getText();
         password = LoginPassField.getText();
 
-        if(username.equals(a1.getUsername()) && password.equals(a1.getPassword())){ //for admin login
+        if (username.equals(a1.getUsername()) && password.equals(a1.getPassword())) { //for admin login
             this.splashScreen.setVisible(false);
             this.setVisible(false);
-            this.repaint();
-            AdminHomePage a = new AdminHomePage();
+            splashScreen.setVisible(false);
+            AdminHomePage a = new AdminHomePage(username, this.getX(), this.getY());
             a.setVisible(true);
+            return;
         }
-        else{
+
+        EmployeeSaving save = new EmployeeSaving();
+        try {
+            if (save.checkFired(username)) {
+                LoginError.setVisible(true);
+                LoginError.setText("Employee Fired");
+                return;
+            }
+
+        } catch (UserNotFoundException ex) {
             LoginError.setVisible(true);
+            LoginError.setText("File Error");
+            System.out.println(ex.getMessage());;
         }
+
+        UsernameLedger ledger = new UsernameLedger();
+        System.out.println(username);
+        try {
+            if (ledger.usernameSearch(username)) {
+                String path = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "EmployeeManager";
+                String fileName = ((username) + ".txt");
+                File f1 = new File(path, fileName);
+                BufferedReader reader = new BufferedReader(new FileReader(f1));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    //check if the line contains "Assigned Tasks:"
+                    if (line.contains("Password")) {
+                        //extract the current value of password and check it
+                        String pass = (line.split(":")[1].trim());
+                        
+                        if(this.password.equals(pass)){
+                            EmployeeHomePage e = new EmployeeHomePage(this.username, this.getX(), this.getY());
+                            this.setVisible(false);
+                            splashScreen.setVisible(false);
+                            e.setVisible(true);
+                            return;
+                        }
+                    }
+
+                }
+                reader.close();
+            }
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        LoginError.setVisible(true);
+
     }//GEN-LAST:event_LoginButtonActionPerformed
 
     /**
@@ -230,23 +291,22 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
-    
+
     public javax.swing.JPanel getLoginPanel() {
         return LoginPanel;
     }
-    
-    private void attemptLogin(){
+
+    private void attemptLogin() {
         username = LoginUserField.getText();
         password = LoginPassField.getText();
 
-        if(username.equals(a1.getUsername()) && password.equals(a1.getPassword())){
+        if (username.equals(a1.getUsername()) && password.equals(a1.getPassword())) {
             this.splashScreen.setVisible(false);
             this.setVisible(false);
             this.repaint();
             AdminHomePage a = new AdminHomePage();
             a.setVisible(true);
-        }
-        else{
+        } else {
             LoginError.setVisible(true);
         }
     }

@@ -1,20 +1,49 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package GUI;
+
+import employeemanager.EmployeeSaving;
+import employeemanager.TaskViewing;
+import employeemanager.UserNotFoundException;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 /**
  *
  * @author Ralty
  */
-public class EmployeeTaskView extends javax.swing.JPanel {
 
-    /**
-     * Creates new form AdminTaskView
-     */
+public class EmployeeTaskView extends javax.swing.JFrame {
+
+
+    private String username;
+    private TaskViewing taskView = new TaskViewing();
+    private EmployeeHomePage page;
+    
     public EmployeeTaskView() {
         initComponents();
+    }
+    
+    public EmployeeTaskView(String username, EmployeeHomePage a) {
+        initComponents();
+        this.username = username;
+        page = a;
+        populateTasks();
+    }
+    
+    public EmployeeTaskView(String username, EmployeeHomePage a, int x, int y) {
+        initComponents();
+        this.username = username;
+        page = a;
+        this.setLocation(x, y);
+        this.setResizable(false); // Make the frame not resizable
+        populateTasks();
     }
 
     /**
@@ -26,35 +55,157 @@ public class EmployeeTaskView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        EmployeeTaskViewPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TaskViewList = new javax.swing.JList<>();
+        EmployeeTaskViewLabel = new javax.swing.JLabel();
+        BackButton = new javax.swing.JButton();
 
-        EmployeeTaskViewPanel.setBackground(new java.awt.Color(51, 51, 51));
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout EmployeeTaskViewPanelLayout = new javax.swing.GroupLayout(EmployeeTaskViewPanel);
-        EmployeeTaskViewPanel.setLayout(EmployeeTaskViewPanelLayout);
-        EmployeeTaskViewPanelLayout.setHorizontalGroup(
-            EmployeeTaskViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 955, Short.MAX_VALUE)
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+
+        TaskViewList.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        TaskViewList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        TaskViewList.setCellRenderer(new CustomListCellRenderer());
+        jScrollPane1.setViewportView(TaskViewList);
+
+        EmployeeTaskViewLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/employee-task-view-label.png"))); // NOI18N
+
+        BackButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/back-button.png"))); // NOI18N
+        BackButton.setContentAreaFilled(false);
+        BackButton.setSelected(true);
+        BackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(183, 183, 183)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(BackButton)
+                        .addGap(171, 171, 171)
+                        .addComponent(EmployeeTaskViewLabel)))
+                .addContainerGap(188, Short.MAX_VALUE))
         );
-        EmployeeTaskViewPanelLayout.setVerticalGroup(
-            EmployeeTaskViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 686, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(EmployeeTaskViewLabel)))
+                .addGap(51, 51, 51)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(EmployeeTaskViewPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(EmployeeTaskViewPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
+        this.setVisible(false);
+        page.setVisible(true);
+    }//GEN-LAST:event_BackButtonActionPerformed
+
+    
+    private void populateTasks(){       
+        DefaultListModel<String> model = new DefaultListModel<>();
+        
+        
+        try {
+            model.addAll(taskView.viewTasks(username, true));
+            TaskViewList.setModel(model);
+        } catch (UserNotFoundException ex) {
+            
+        }
+    }
+    
+    public class CustomListCellRenderer extends DefaultListCellRenderer {
+    @Override
+    public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        if (index < list.getModel().getSize()) {
+            JSeparator separator = new JSeparator(JSeparator.HORIZONTAL);
+            separator.setForeground(Color.LIGHT_GRAY);
+            JPanel panel = new JPanel(new BorderLayout());
+            panel.add(c, BorderLayout.CENTER);
+            panel.add(separator, BorderLayout.SOUTH);
+            return panel;
+        } else {
+            return c;
+        }
+    }
+}
+    
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(EmployeeTaskView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(EmployeeTaskView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(EmployeeTaskView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(EmployeeTaskView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new EmployeeTaskView().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel EmployeeTaskViewPanel;
+    private javax.swing.JButton BackButton;
+    private javax.swing.JLabel EmployeeTaskViewLabel;
+    private javax.swing.JList<String> TaskViewList;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

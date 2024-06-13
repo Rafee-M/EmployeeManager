@@ -9,10 +9,14 @@ import java.awt.event.KeyListener;
  * @author Raafee-M
  */
 
+
+
 public class SplashScreen extends javax.swing.JFrame {
 
     public SplashScreen() {
         initComponents();
+        setLocationRelativeTo(null); // Set start position to center of the screen
+        this.setResizable(false); // Make the frame not resizable
 
         addKeyListener(new KeyListener() {
             @Override
@@ -163,30 +167,6 @@ public class SplashScreen extends javax.swing.JFrame {
         javax.swing.JPanel loginPanel = loginFrame.getLoginPanel();
         
         SplashPanel.add(loginPanel);
-
-//
-//    SplashText.setText("Login Menu");
-//    SplashText.setHorizontalAlignment(javax.swing.JTextField.CENTER); // Center align the text horizontally
-//
-//    GroupLayout layout = (GroupLayout) LoginPanel.getLayout();
-//
-//    int horizontalOffset = 98; // Adjust horizontal position Positive values move it to the right, while negative values move it to the left.
-//    int verticalOffset = -16;   // Adjust vertical position Positive values move it downwards, while negative values move it upwards.
-//
-//    // Modify the constraints to adjust the position of SplashText horizontally and vertically
-//    layout.setHorizontalGroup(
-//            layout.createSequentialGroup()
-//                    .addGap(277 + horizontalOffset, 277 + horizontalOffset, 277 + horizontalOffset)
-//                    .addComponent(SplashText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-//                    .addContainerGap(278, Short.MAX_VALUE)
-//    );
-//    layout.setVerticalGroup(
-//            layout.createSequentialGroup()
-//                    .addGap(146 + verticalOffset, 146 + verticalOffset, 146 + verticalOffset)
-//                    .addComponent(SplashText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-//                    .addContainerGap(95, Short.MAX_VALUE)
-//    );
-//    SplashText.setFont(new java.awt.Font("Segoe UI", 0, 38)); 
     }
 
 

@@ -5,6 +5,8 @@
 package GUI;
 
 import employeemanager.Employee;
+import employeemanager.EmployeeSaving;
+import employeemanager.UsernameLedger;
 
 /**
  *
@@ -14,9 +16,18 @@ public class AdminAddEmployee extends javax.swing.JFrame {
 
     private int accountType = 0;
     private int gender = 0;
+    AdminHomePage page;
 
     public AdminAddEmployee() {
         initComponents();
+        
+    }
+    
+    public AdminAddEmployee(AdminHomePage a, int x, int y) {
+        initComponents();
+        this.setLocation(x, y);
+        this.setResizable(false); // Make the frame not resizable
+        this.page = a;
     }
 
     /**
@@ -46,6 +57,7 @@ public class AdminAddEmployee extends javax.swing.JFrame {
         userTypeCombo = new javax.swing.JComboBox<>();
         genderCombo = new javax.swing.JComboBox<>();
         addEmployeeButton = new javax.swing.JButton();
+        BackButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -211,34 +223,50 @@ public class AdminAddEmployee extends javax.swing.JFrame {
             }
         });
 
+        BackButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/back-button.png"))); // NOI18N
+        BackButton.setContentAreaFilled(false);
+        BackButton.setSelected(true);
+        BackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(38, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(313, 313, 313))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37))))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(358, 358, 358)
-                .addComponent(addEmployeeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(356, 356, 356)
+                .addComponent(addEmployeeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(313, 313, 313))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel1)
-                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabel1)
+                        .addGap(27, 27, 27))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(26, 26, 26)
                 .addComponent(addEmployeeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-                .addGap(18, 18, 18))
+                .addGap(19, 19, 19))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -355,7 +383,7 @@ public class AdminAddEmployee extends javax.swing.JFrame {
         try {
             salary = Integer.parseInt(salaryString);
         } catch (NumberFormatException e) {
-            showError("Salary must be a number");
+            showError("Salary must be a valid number");
             flag = 1;
             return;
         }
@@ -364,17 +392,23 @@ public class AdminAddEmployee extends javax.swing.JFrame {
         if (flag == 0) {
             //set button text back to normal
             addEmployeeButton.setBackground(new java.awt.Color(29, 151, 29));
-            addEmployeeButton.setFont(new java.awt.Font("Segoe UI", 1, 14));
+            addEmployeeButton.setText("Employee Added");
             
             
             Employee e = new Employee(name, id, age, gender, position, salary);
-            System.out.println(e.getName() + e.getId() + e.getGender() + e.getPosition() + e.getSalary() + e.getUsername());
+            System.out.println(e.getName() + e.getId() + e.getGender() + e.getPosition() + e.getSalary() + e.getUsername() + e.getPassword() + e.getIsAdmin());
+            
+            EmployeeSaving employeeSave = new EmployeeSaving(e);
+            UsernameLedger usernameSave = new UsernameLedger(e);
+            employeeSave.saveToFile();
+            usernameSave.saveToFile();
         }
         
 
 
     }//GEN-LAST:event_addEmployeeButtonActionPerformed
 
+    //Shows error message in Add Employee button
     private void showError(String message) {
         addEmployeeButton.setText(message);
         addEmployeeButton.setBackground(new java.awt.Color(206, 35, 35));
@@ -389,6 +423,11 @@ public class AdminAddEmployee extends javax.swing.JFrame {
             gender = 1;
         }
     }//GEN-LAST:event_genderComboActionPerformed
+
+    private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
+        this.setVisible(false);
+        page.setVisible(true);
+    }//GEN-LAST:event_BackButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -427,6 +466,7 @@ public class AdminAddEmployee extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AccountTypeLabel;
+    private javax.swing.JButton BackButton;
     private javax.swing.JButton addEmployeeButton;
     private javax.swing.JTextField ageInputField;
     private javax.swing.JLabel ageLabel;

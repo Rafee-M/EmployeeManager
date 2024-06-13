@@ -1,19 +1,44 @@
 package GUI;
 
+import employeemanager.ComboBoxFill;
+import employeemanager.EmployeeSaving;
 import employeemanager.TaskSaving;
 import employeemanager.UserNotFoundException;
+import employeemanager.UsernameLedger;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
  * @author Rafee-M
  */
-public class AdminTaskAssignment extends javax.swing.JFrame {
+
+public class AdminTaskAssignment extends javax.swing.JFrame implements ComboBoxFill{
 
     private String username;
     private TaskSaving taskSaving;
-    
+    private AdminHomePage page;
+
     public AdminTaskAssignment() {
         initComponents();
+        fillComboBox();
+        taskSaving = new TaskSaving();
+    }
+    
+    public AdminTaskAssignment(AdminHomePage a) {
+        
+        initComponents();
+        fillComboBox();
+        page = a;
+        taskSaving = new TaskSaving();
+    }
+    
+    public AdminTaskAssignment(AdminHomePage a, int x, int y) {
+        
+        initComponents();
+        fillComboBox();
+        this.setLocation(x, y);
+        this.setResizable(false); // Make the frame not resizable
+        page = a;
         taskSaving = new TaskSaving();
     }
 
@@ -26,16 +51,18 @@ public class AdminTaskAssignment extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         AdminTaskAssignPanel = new javax.swing.JPanel();
         AdminTaskAssignLogo = new javax.swing.JLabel();
-        EmployeeNameLabel = new javax.swing.JLabel();
         EmployeeNameLabel1 = new javax.swing.JLabel();
-        EmployeeUsernameField = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TaskDetailArea = new javax.swing.JTextArea();
-        ShowUsernameButton = new javax.swing.JButton();
         AssignTaskButton = new javax.swing.JButton();
         EmployeeErrorLabel = new javax.swing.JLabel();
+        TaskDetailArea = new javax.swing.JTextField();
+        EmployeeListCombo = new javax.swing.JComboBox<>();
+        EmployeeNameLabel = new javax.swing.JLabel();
+        BackButton = new javax.swing.JButton();
+
+        jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,32 +72,11 @@ public class AdminTaskAssignment extends javax.swing.JFrame {
         AdminTaskAssignLogo.setBackground(new java.awt.Color(203, 78, 22));
         AdminTaskAssignLogo.setFont(new java.awt.Font("Segoe UI", 1, 32)); // NOI18N
         AdminTaskAssignLogo.setForeground(new java.awt.Color(228, 228, 228));
-        AdminTaskAssignLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ralty\\Downloads\\Employee\\docs\\images\\task-assign-logo.png")); // NOI18N
-
-        EmployeeNameLabel.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        EmployeeNameLabel.setForeground(new java.awt.Color(255, 255, 255));
-        EmployeeNameLabel.setText("Enter Employee Username:");
+        AdminTaskAssignLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/task-assign-label.png"))); // NOI18N
 
         EmployeeNameLabel1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         EmployeeNameLabel1.setForeground(new java.awt.Color(255, 255, 255));
         EmployeeNameLabel1.setText("Enter Task Description:");
-
-        EmployeeUsernameField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        EmployeeUsernameField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EmployeeUsernameFieldActionPerformed(evt);
-            }
-        });
-
-        TaskDetailArea.setColumns(20);
-        TaskDetailArea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        TaskDetailArea.setRows(5);
-        jScrollPane1.setViewportView(TaskDetailArea);
-
-        ShowUsernameButton.setBackground(new java.awt.Color(102, 102, 102));
-        ShowUsernameButton.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        ShowUsernameButton.setText("Show Usernames");
-        ShowUsernameButton.setFocusPainted(false);
 
         AssignTaskButton.setBackground(new java.awt.Color(102, 102, 102));
         AssignTaskButton.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -84,62 +90,96 @@ public class AdminTaskAssignment extends javax.swing.JFrame {
 
         EmployeeErrorLabel.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         EmployeeErrorLabel.setForeground(new java.awt.Color(255, 51, 51));
-        EmployeeErrorLabel.setText("Employee Not Found!");
+        EmployeeErrorLabel.setText("    Employee Not Found!");
         EmployeeErrorLabel.setVisible(false);
+
+        TaskDetailArea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        TaskDetailArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TaskDetailAreaActionPerformed(evt);
+            }
+        });
+
+        EmployeeListCombo.setBackground(new java.awt.Color(102, 102, 102));
+        EmployeeListCombo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        EmployeeListCombo.setForeground(new java.awt.Color(255, 255, 255));
+        EmployeeListCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        EmployeeListCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EmployeeListComboActionPerformed(evt);
+            }
+        });
+
+        EmployeeNameLabel.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        EmployeeNameLabel.setForeground(new java.awt.Color(255, 255, 255));
+        EmployeeNameLabel.setText("Select Employee Username:");
+
+        BackButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/back-button.png"))); // NOI18N
+        BackButton.setContentAreaFilled(false);
+        BackButton.setSelected(true);
+        BackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout AdminTaskAssignPanelLayout = new javax.swing.GroupLayout(AdminTaskAssignPanel);
         AdminTaskAssignPanel.setLayout(AdminTaskAssignPanelLayout);
         AdminTaskAssignPanelLayout.setHorizontalGroup(
             AdminTaskAssignPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AdminTaskAssignPanelLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(AdminTaskAssignPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminTaskAssignPanelLayout.createSequentialGroup()
+                        .addComponent(EmployeeNameLabel)
+                        .addGap(208, 208, 208)
+                        .addComponent(EmployeeListCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(AdminTaskAssignPanelLayout.createSequentialGroup()
+                        .addComponent(EmployeeNameLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                        .addComponent(TaskDetailArea, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45))))
+            .addGroup(AdminTaskAssignPanelLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(AdminTaskAssignLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(274, 274, 274))
+            .addGroup(AdminTaskAssignPanelLayout.createSequentialGroup()
                 .addGroup(AdminTaskAssignPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(AdminTaskAssignPanelLayout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addGroup(AdminTaskAssignPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(AdminTaskAssignPanelLayout.createSequentialGroup()
-                                .addComponent(EmployeeNameLabel)
-                                .addGap(52, 52, 52)
-                                .addComponent(EmployeeUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(AdminTaskAssignPanelLayout.createSequentialGroup()
-                                .addComponent(EmployeeNameLabel1)
-                                .addGap(67, 67, 67)
-                                .addGroup(AdminTaskAssignPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(EmployeeErrorLabel)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(417, 417, 417)
+                        .addComponent(AssignTaskButton))
                     .addGroup(AdminTaskAssignPanelLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(ShowUsernameButton)
-                        .addGap(268, 268, 268)
-                        .addComponent(AssignTaskButton)))
-                .addContainerGap(98, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminTaskAssignPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(AdminTaskAssignLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(271, 271, 271))
+                        .addGap(359, 359, 359)
+                        .addComponent(EmployeeErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         AdminTaskAssignPanelLayout.setVerticalGroup(
             AdminTaskAssignPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AdminTaskAssignPanelLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(AdminTaskAssignLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(104, 104, 104)
+                .addGroup(AdminTaskAssignPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(AdminTaskAssignPanelLayout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(AdminTaskAssignLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(143, 143, 143))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminTaskAssignPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(BackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(128, 128, 128)))
                 .addGroup(AdminTaskAssignPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(EmployeeNameLabel)
-                    .addComponent(EmployeeUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(51, 51, 51)
-                .addGroup(AdminTaskAssignPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(EmployeeNameLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                    .addComponent(EmployeeListCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
+                .addGroup(AdminTaskAssignPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TaskDetailArea, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EmployeeNameLabel1))
+                .addGap(132, 132, 132)
                 .addComponent(EmployeeErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(AdminTaskAssignPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminTaskAssignPanelLayout.createSequentialGroup()
-                        .addComponent(ShowUsernameButton)
-                        .addGap(20, 20, 20))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminTaskAssignPanelLayout.createSequentialGroup()
-                        .addComponent(AssignTaskButton)
-                        .addGap(36, 36, 36))))
+                .addComponent(AssignTaskButton)
+                .addGap(36, 36, 36))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -157,32 +197,63 @@ public class AdminTaskAssignment extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AssignTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AssignTaskButtonActionPerformed
-        this.username = EmployeeUsernameField.getText();
-        String taskDetails = TaskDetailArea.getText();
+        this.username = (String) EmployeeListCombo.getSelectedItem();
+        EmployeeSaving save = new EmployeeSaving();
         
-        try{
-            taskSaving.assignTask(username, taskDetails);
-            System.out.println("s");
-            EmployeeErrorLabel.setForeground(new java.awt.Color(44, 200, 55));
-            EmployeeErrorLabel.setText("Assigned Successfully");
+        try {
+            if(save.checkFired(username)){
+                EmployeeErrorLabel.setVisible(true);
+                EmployeeErrorLabel.setText("Employee has been FIRED");
+                return;
+            }
+        } catch (UserNotFoundException ex) {
+            System.out.println(ex.getMessage());
+            EmployeeErrorLabel.setText("File Error");
+        }
+        
+        String taskDetails = TaskDetailArea.getText().trim();
+
+        if (taskDetails.equals("")) {
+            EmployeeErrorLabel.setText("      Task can't be empty");
             EmployeeErrorLabel.setVisible(true);
+        } 
+        
+        else {
             
-        }catch(UserNotFoundException e){
+            try {
+                taskSaving.assignTask(username, taskDetails);
+                System.out.println("s");
+                EmployeeErrorLabel.setForeground(new java.awt.Color(44, 200, 55));
+                EmployeeErrorLabel.setText("Assigned Successfully");
+                EmployeeErrorLabel.setVisible(true);
+
+            } 
             
-            EmployeeErrorLabel.setForeground(new java.awt.Color(255, 51, 51));
-            EmployeeErrorLabel.setText("Employee Not Found!");
-            EmployeeErrorLabel.setVisible(true);
-            
+            catch (UserNotFoundException e) {
+
+                EmployeeErrorLabel.setForeground(new java.awt.Color(255, 51, 51));
+                EmployeeErrorLabel.setText("File Error!");
+                EmployeeErrorLabel.setVisible(true);
+
+            }
+
         }
 
-        
-        
+
     }//GEN-LAST:event_AssignTaskButtonActionPerformed
 
-    private void EmployeeUsernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmployeeUsernameFieldActionPerformed
-        
-        
-    }//GEN-LAST:event_EmployeeUsernameFieldActionPerformed
+    private void TaskDetailAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TaskDetailAreaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TaskDetailAreaActionPerformed
+
+    private void EmployeeListComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmployeeListComboActionPerformed
+        String selectedUser = (String) EmployeeListCombo.getSelectedItem();
+    }//GEN-LAST:event_EmployeeListComboActionPerformed
+
+    private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
+        this.setVisible(false);
+        page.setVisible(true);
+    }//GEN-LAST:event_BackButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,17 +290,35 @@ public class AdminTaskAssignment extends javax.swing.JFrame {
             }
         });
     }
+    
+    @Override
+    public void fillComboBox() {
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        UsernameLedger ledger = new UsernameLedger();
+        
+        try{
+            for(String username : ledger.getUsernames()){
+                model.addElement(username);
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+        EmployeeListCombo.setModel(model);
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AdminTaskAssignLogo;
     private javax.swing.JPanel AdminTaskAssignPanel;
     private javax.swing.JButton AssignTaskButton;
+    private javax.swing.JButton BackButton;
     private javax.swing.JLabel EmployeeErrorLabel;
+    private javax.swing.JComboBox<String> EmployeeListCombo;
     private javax.swing.JLabel EmployeeNameLabel;
     private javax.swing.JLabel EmployeeNameLabel1;
-    private javax.swing.JTextField EmployeeUsernameField;
-    private javax.swing.JButton ShowUsernameButton;
-    private javax.swing.JTextArea TaskDetailArea;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField TaskDetailArea;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

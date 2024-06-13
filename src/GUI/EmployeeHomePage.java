@@ -4,20 +4,43 @@
  */
 package GUI;
 
+import employeemanager.Employee;
+import employeemanager.FileInfoReader;
+import java.awt.Dimension;
+import java.io.IOException;
+
 /**
  *
  * @author Ralty
  */
 public class EmployeeHomePage extends javax.swing.JFrame {
 
-    /**
-     * Creates new form EmployeeHomePage
-     */
-    
+    private String username;
     private boolean toggle = true;
+    FileInfoReader infoReader = new FileInfoReader();
+    Employee employee;
     
     public EmployeeHomePage() {
         initComponents();
+        System.out.println(this.getSize());
+    }
+    
+    public EmployeeHomePage(String username) throws IOException {
+        initComponents();
+        employee = infoReader.readUser(username, false);
+        viewEmployeeInfo(username);
+        
+        System.out.println(this.getSize());
+    }
+    
+    public EmployeeHomePage(String username, int x, int y) throws IOException {
+        initComponents();
+        employee = infoReader.readUser(username, false);
+        viewEmployeeInfo(username);
+        this.setLocation(x, y);
+        this.setResizable(false); // Make the frame not resizable
+        
+        System.out.println(this.getSize());
     }
 
     /**
@@ -50,10 +73,11 @@ public class EmployeeHomePage extends javax.swing.JFrame {
         genderValue = new javax.swing.JLabel();
         HomeLogo = new javax.swing.JLabel();
         EmployeeMenuPanel = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        EmployeeViewTaskButton = new javax.swing.JButton();
+        PayCalculatorButton = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         MenuButton = new javax.swing.JButton();
+        AdminSignOut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -212,19 +236,29 @@ public class EmployeeHomePage extends javax.swing.JFrame {
         EmployeeMenuPanel.setBackground(new java.awt.Color(204, 204, 204));
         EmployeeMenuPanel.setVisible(false);
 
-        jButton1.setBackground(new java.awt.Color(51, 51, 51));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(204, 204, 204));
-        jButton1.setText("View Tasks");
-        jButton1.setBorderPainted(false);
-        jButton1.setFocusPainted(false);
+        EmployeeViewTaskButton.setBackground(new java.awt.Color(51, 51, 51));
+        EmployeeViewTaskButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        EmployeeViewTaskButton.setForeground(new java.awt.Color(204, 204, 204));
+        EmployeeViewTaskButton.setText("View Tasks");
+        EmployeeViewTaskButton.setBorderPainted(false);
+        EmployeeViewTaskButton.setFocusPainted(false);
+        EmployeeViewTaskButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EmployeeViewTaskButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(51, 51, 51));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(204, 204, 204));
-        jButton2.setText("Pay Calculator");
-        jButton2.setBorderPainted(false);
-        jButton2.setFocusPainted(false);
+        PayCalculatorButton.setBackground(new java.awt.Color(51, 51, 51));
+        PayCalculatorButton.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        PayCalculatorButton.setForeground(new java.awt.Color(204, 204, 204));
+        PayCalculatorButton.setText("Pay Calculator");
+        PayCalculatorButton.setBorderPainted(false);
+        PayCalculatorButton.setFocusPainted(false);
+        PayCalculatorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PayCalculatorButtonActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(51, 51, 51));
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -241,10 +275,10 @@ public class EmployeeHomePage extends javax.swing.JFrame {
                 .addGroup(EmployeeMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(EmployeeMenuPanelLayout.createSequentialGroup()
                         .addGap(62, 62, 62)
-                        .addComponent(jButton1))
+                        .addComponent(EmployeeViewTaskButton))
                     .addGroup(EmployeeMenuPanelLayout.createSequentialGroup()
                         .addGap(49, 49, 49)
-                        .addComponent(jButton2))
+                        .addComponent(PayCalculatorButton))
                     .addGroup(EmployeeMenuPanelLayout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(jButton3)))
@@ -254,9 +288,9 @@ public class EmployeeHomePage extends javax.swing.JFrame {
             EmployeeMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EmployeeMenuPanelLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jButton1)
+                .addComponent(EmployeeViewTaskButton)
                 .addGap(62, 62, 62)
-                .addComponent(jButton2)
+                .addComponent(PayCalculatorButton)
                 .addGap(57, 57, 57)
                 .addComponent(jButton3)
                 .addContainerGap(73, Short.MAX_VALUE))
@@ -271,6 +305,18 @@ public class EmployeeHomePage extends javax.swing.JFrame {
         MenuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuButtonActionPerformed(evt);
+            }
+        });
+
+        AdminSignOut.setBackground(new java.awt.Color(122, 122, 0));
+        AdminSignOut.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
+        AdminSignOut.setForeground(new java.awt.Color(0, 0, 0));
+        AdminSignOut.setText("Sign Out");
+        AdminSignOut.setBorderPainted(false);
+        AdminSignOut.setFocusPainted(false);
+        AdminSignOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AdminSignOutActionPerformed(evt);
             }
         });
 
@@ -291,7 +337,10 @@ public class EmployeeHomePage extends javax.swing.JFrame {
                         .addComponent(MenuButton))
                     .addGroup(EmployeeHomePanelLayout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addComponent(EmployeeMenuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(EmployeeMenuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(EmployeeHomePanelLayout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addComponent(AdminSignOut, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(97, Short.MAX_VALUE))
         );
         EmployeeHomePanelLayout.setVerticalGroup(
@@ -300,13 +349,17 @@ public class EmployeeHomePage extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(HomeLogo)
                 .addGap(18, 18, 18)
-                .addGroup(EmployeeHomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(EmployeeHomeInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(EmployeeHomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(EmployeeHomePanelLayout.createSequentialGroup()
                         .addComponent(MenuButton)
                         .addGap(18, 18, 18)
-                        .addComponent(EmployeeMenuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(25, 25, 25))
+                        .addComponent(EmployeeMenuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(AdminSignOut, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80))
+                    .addGroup(EmployeeHomePanelLayout.createSequentialGroup()
+                        .addComponent(EmployeeHomeInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -328,6 +381,25 @@ public class EmployeeHomePage extends javax.swing.JFrame {
         EmployeeMenuPanel.setVisible(toggle); //Toggles the employee menu button
         toggle = !toggle;
     }//GEN-LAST:event_MenuButtonActionPerformed
+
+    private void EmployeeViewTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmployeeViewTaskButtonActionPerformed
+        EmployeeTaskView view = new EmployeeTaskView(employee.getUsername(), this, this.getX(), this.getY());
+        this.setVisible(false);
+        view.setVisible(true);
+    }//GEN-LAST:event_EmployeeViewTaskButtonActionPerformed
+
+    private void PayCalculatorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PayCalculatorButtonActionPerformed
+        EmployeePayCalculator calc = new EmployeePayCalculator(employee.getSalary(), this, this.getX(), this.getY());
+        this.setVisible(false);
+        calc.setVisible(true);
+
+    }//GEN-LAST:event_PayCalculatorButtonActionPerformed
+
+    private void AdminSignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminSignOutActionPerformed
+        this.setVisible(false);
+        Login l = new Login();
+        l.setVisible(true);
+    }//GEN-LAST:event_AdminSignOutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -366,14 +438,42 @@ public class EmployeeHomePage extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void viewEmployeeInfo(String username){
+        try{            
+            this.nameValue.setText(employee.getName());
+            this.idValue.setText(String.valueOf(employee.getId()));
+            this.usernameValue.setText(employee.getUsername());
+            this.ageValue.setText(String.valueOf(employee.getAge()));
+            this.salaryValue.setText(String.valueOf(employee.getSalary()));
+            this.positionValue.setText(employee.getPosition());
+            
+            String gender = (employee.getGender() == 0) ? "Male" : "Female";
+            this.genderValue.setText(gender);
+            
+            //jPanel3.setPreferredSize(new Dimension(824, 451));
+            //FileError.setVisible(false);
+            
+
+            
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            //FileError.setVisible(true);
+            //jPanel3.setPreferredSize(new Dimension(824, 451));
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AccountTypeLabel;
+    private javax.swing.JButton AdminSignOut;
     private javax.swing.JPanel EmployeeHomeInfoPanel;
     private javax.swing.JPanel EmployeeHomePanel;
     private javax.swing.JPanel EmployeeMenuPanel;
+    private javax.swing.JButton EmployeeViewTaskButton;
     private javax.swing.JLabel HomeLogo;
     private javax.swing.JButton MenuButton;
+    private javax.swing.JButton PayCalculatorButton;
     private javax.swing.JLabel ProfileLogo;
     private javax.swing.JLabel accountValue;
     private javax.swing.JLabel ageLabel;
@@ -382,8 +482,6 @@ public class EmployeeHomePage extends javax.swing.JFrame {
     private javax.swing.JLabel genderValue;
     private javax.swing.JLabel idLabel;
     private javax.swing.JLabel idValue;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JLabel nameValue;
