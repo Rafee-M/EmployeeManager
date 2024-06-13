@@ -1,5 +1,7 @@
 package employeemanager;
 
+import java.util.List;
+
 /**
  *
  * @author Raafee-M
@@ -8,6 +10,6 @@ package employeemanager;
 public interface TaskActions {
 
     public void assignTask(String username, String taskDetails) throws UserNotFoundException;
-    public void viewTasks(String username, boolean isAdmin);
+    public List<String> viewTasks(String username, boolean isAdmin) throws UserNotFoundException;
 }
 

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -54,7 +55,7 @@ public class TaskSaving implements TaskActions {
         }
     }
     
-    public void updateAssignedTasks(File file) {
+    private void updateAssignedTasks(File file) {
         try {
             File tempFile = new File(file.getParent(), "temp.txt");
 
@@ -88,7 +89,7 @@ public class TaskSaving implements TaskActions {
         }
     }
 
-    private void updateCompletedTasks(File file) {
+    public void updateCompletedTasks(File file) {
         try {
             File tempFile = new File(file.getParent(), "temp.txt");
 
@@ -118,8 +119,8 @@ public class TaskSaving implements TaskActions {
     }
 
     @Override
-    public void viewTasks(String username, boolean isAdmin) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<String> viewTasks(String username, boolean isAdmin) {
+        return null;
     }
     
 }

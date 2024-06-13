@@ -7,7 +7,7 @@ package employeemanager;
 
 public class Admin extends User{
     
-    public Admin(String username, boolean isAdmin) {
+    public Admin() {
         super("admin", "admin432", true);
     }
     

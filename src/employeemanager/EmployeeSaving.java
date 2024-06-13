@@ -1,7 +1,9 @@
 package employeemanager;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 
 /**
@@ -15,6 +17,8 @@ public class EmployeeSaving implements InfoSaving {
     private int flag = 0;
     private final String path = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "EmployeeManager";
 
+    public EmployeeSaving(){}
+    
     public EmployeeSaving(Employee employee) {
 
         this.employee = employee;
@@ -47,10 +51,10 @@ public class EmployeeSaving implements InfoSaving {
             writer.write("Username: " + employee.getUsername() + "\n");
             writer.write("Age: " + employee.getAge() + "\n");
 
-            String gender = (employee.getGender() == 0) ? "Male" : "Female";
+            //String gender = (employee.getGender() == 0) ? "Male" : "Female";
             writer.write("Gender: " + employee.getGender() + "\n");
 
-            String userType = (employee.getIsAdmin()) ? "Admin" : "Employee";
+            //String userType = (employee.getIsAdmin()) ? "Admin" : "Employee";
             writer.write("User Type: " + employee.getIsAdmin() + "\n");
 
             writer.write("Position: " + employee.getPosition() + "\n");
@@ -65,4 +69,70 @@ public class EmployeeSaving implements InfoSaving {
             System.out.println("Error writing to file: " + e.getMessage());
         }
     }
+
+    @Override
+    public void deleteInfo(String username) throws UserNotFoundException{
+        String fileName = ((username) + ".txt");
+        File f1 = new File(path, fileName);
+        File temp = new File(path, "temp.txt");
+        
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
+            BufferedReader reader = new BufferedReader(new FileReader(f1)); //close not need as they are set as try-with resource
+            ) {
+            
+            
+            String line;
+            
+            writer.write("Fired");
+            writer.newLine();
+            
+            while((line = reader.readLine()) != null){
+                if(line.contains("Position")){
+                    writer.write("Position: Fired");
+                }
+                else{
+                    writer.write(line); //ensure each line ends with a newline
+                }
+                writer.newLine();
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new UserNotFoundException("Error writing to file");
+        }
+        
+        
+        if(f1.delete()){
+            
+            if(!temp.renameTo(f1)){
+                System.out.println("Error renaming temp file to original file");
+                throw new UserNotFoundException("Error renaming temp file");
+            }
+        }
+        else{
+            System.out.println("Error deleting original file");
+            throw new UserNotFoundException("Error deleting original file");
+        }
+    }
+    
+    public boolean checkFired(String username) throws UserNotFoundException{
+        String fileName = ((username) + ".txt");
+        File f1 = new File(path, fileName);
+        
+        
+        try(BufferedReader reader = new BufferedReader(new FileReader(f1)); //close not need as they are set as try-with resource
+            ) {
+            
+            if(reader.readLine().contains("Fired")){
+                return true;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new UserNotFoundException("Error writing to file");
+        }
+        
+        return false;
+    }
+    
 }
